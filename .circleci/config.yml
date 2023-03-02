@@ -21,7 +21,7 @@ jobs:
 
   test:
     docker:
-      - image: circleci/node:16.13
+      - image: circleci/node:16.13-browsers
     steps:
       - checkout
       - restore_cache:
@@ -34,10 +34,6 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package-lock.json" }}
       - run:
-          name: Set Chrome binary path
-          command: echo 'export CHROME_BIN=/usr/bin/google-chrome' >> $BASH_ENV
-          shell: /bin/bash
-      - run:
           name: Unit tests
           command: npm run test
 
@@ -47,8 +43,14 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install Chrome
+          command: |
+            curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add
+            echo "deb https://dl.google.com/linux/chrome/deb/ stable main" | sudo tee -a /etc/apt/sources.list.d/google-chrome.list
+            sudo apt-get update && sudo apt-get install -y google-chrome-stable
+      - run:
           name: Set Chrome binary path
-          command: echo 'export CHROME_BIN=/usr/bin/google-chrome' >> $BASH_ENV
+          command: echo 'export CHROME_BIN=/usr/bin/google-chrome-stable' >> $BASH_ENV
           shell: /bin/bash
       - run:
           name: Install dependencies
