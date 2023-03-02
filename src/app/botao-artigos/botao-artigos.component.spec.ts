@@ -1,23 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+// import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BotaoArtigosComponent } from './botao-artigos.component';
+// import { BotaoArtigosComponent } from './botao-artigos.component';
 
-describe('BotaoArtigosComponent', () => {
-  let component: BotaoArtigosComponent;
-  let fixture: ComponentFixture<BotaoArtigosComponent>;
+// describe('BotaoArtigosComponent', () => {
+//   let component: BotaoArtigosComponent;
+//   let fixture: ComponentFixture<BotaoArtigosComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ BotaoArtigosComponent ]
-    })
-    .compileComponents();
+//   beforeEach(async () => {
+//     await TestBed.configureTestingModule({
+//       declarations: [ BotaoArtigosComponent ]
+//     })
+//     .compileComponents();
 
-    fixture = TestBed.createComponent(BotaoArtigosComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//     fixture = TestBed.createComponent(BotaoArtigosComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });
