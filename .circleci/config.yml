@@ -28,7 +28,7 @@ jobs:
       - run: npm install
       - run: npm install -g @angular/cli
       # Faz o build da aplicação.
-      - run: ng build --prod
+      - run: ng build
 
   # Job para executar os testes unitários e end-to-end (Cypress).
   test:
@@ -42,7 +42,7 @@ jobs:
       - checkout
       # Instala as dependências do projeto.
       - run: npm install
-      
+
       - run: npm install -g @angular/cli
       # Executa os testes unitários.
       - run: ng test --watch=false
