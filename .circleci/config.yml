@@ -39,11 +39,11 @@ jobs:
           curl -sSL https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb > /tmp/google-chrome.deb
           sudo dpkg -i /tmp/google-chrome.deb
           sudo apt-get install -f
-    - run:
+    -   run:
         name: Set Chrome binary path
         command: echo 'export CHROME_BIN=/usr/bin/google-chrome-stable' >> $BASH_ENV
         shell: /bin/bash    
-      - run:
+    -   run:
           name: Unit tests
           command: npm run test
 
