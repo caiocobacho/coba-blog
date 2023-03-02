@@ -43,9 +43,9 @@ jobs:
     steps:
       - checkout
       - run:
-      name: Set Chrome binary path
-      command: echo 'export CHROME_BIN=/usr/bin/google-chrome' >> $BASH_ENV
-      shell: /bin/bash
+          name: Set Chrome binary path
+          command: echo 'export CHROME_BIN=/usr/bin/google-chrome' >> $BASH_ENV
+          shell: /bin/bash
       - run:
           name: Install dependencies
           command: npm install
