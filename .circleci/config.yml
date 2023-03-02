@@ -11,41 +11,34 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
-          pkg-list:
-            - @angular/cli
-      - run: npm install
+          pkg-list: |
+            @angular/cli
       - run:
-          name: Build
-          command: ng build --prod
+          name: Build App
+          command: ng build
 
-  unit_tests:
+  test:
     docker:
       - image: circleci/node:16.13.0
     steps:
       - checkout
+      - node/install-packages:
+          pkg-list: |
+            @angular/cli
+            cypress
       - run:
-          name: Install packages
-          command: npm install
-      - run:
-          name: Run tests
-          command: npm test
-
-  e2e:
-    docker:
-      - image: cypress/browsers:node16.13.2-chrome99-ff93
-    steps:
-      - checkout
-      - cypress/install
+          name: Unit Tests
+          command: ng test --watch=false
       - cypress/run:
-          browser: chrome
-          spec: "cypress/integration/*.spec.js"
+          record: true
+          parallel: true
+          group: e2e tests
 
 workflows:
-  build_and_test:
+  version: 2
+  build-and-test:
     jobs:
       - build
-      - unit_tests
-      - e2e:
+      - test:
           requires:
             - build
-            - unit_tests
