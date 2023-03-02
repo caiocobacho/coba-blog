@@ -1,59 +1,46 @@
 version: 2.1
 
 orbs:
-  node: circleci/node@4.7
-  cypress: cypress-io/cypress@1.29.0
+  cypress: cypress-io/cypress@1.24.0
 
 jobs:
   build:
     docker:
       - image: circleci/node:16.13.0
+    working_directory: ~/repo
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
-      - run: npm install -g @angular/cli
-      - run: ng build 
-      - persist_to_workspace:
-          root: .
-          paths:
-            - dist
+      - run: npm install
+      - run: npm run build -- --configuration=production
 
-  unit-tests:
+  test:
     docker:
       - image: circleci/node:16.13.0
+    working_directory: ~/repo
     steps:
-      - attach_workspace:
-          at: .
-      - node/install-packages:
-          pkg-manager: npm
-      - run:
-          name: Run unit tests
-          command: npm run test
+      - checkout
+      - run: npm install
+      - run: npm run test
 
-  cypress-tests:
-    docker:
-      - image: cypress/browsers:node16.13.2-chrome94-ff93
+  e2e:
+    executor: cypress/browsers
     steps:
-      - attach_workspace:
-          at: .
-      - cypress/install
-      - run:
-          name: Run Cypress tests
-          command: cypress run
+      - checkout
+      - cypress/install: # Install Cypress dependencies and binary
+          version: 8.2.0
+      - cypress/run: # Run Cypress tests
+          record: true # Record test results to Cypress Dashboard
+          parallel: true # Run tests in parallel across multiple machines
+          group: "e2e tests" # Group tests in the Cypress Dashboard
 
 workflows:
   version: 2
   build-and-test:
     jobs:
       - build
-      - unit-tests:
+      - test
+  test-e2e:
+    jobs:
+      - e2e:
           requires:
             - build
-      - cypress-tests:
-          requires:
-            - build
-          filters:
-            branches:
-              only:
-                - main
