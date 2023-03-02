@@ -1,23 +1,52 @@
 version: 2.1
+
+orbs:
+  node: circleci/node@4.7
+
 jobs:
   build:
     docker:
-      - image: cimg/node:16.13
+      - image: cimg/node:16.10
     steps:
       - checkout
-      - run: npm install
-      - run: npm run build
-  test:
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          name: Build
+          command: ng build --prod
+
+  unit-test:
     docker:
-      - image: cimg/node:16.13
+      - image: cimg/node:16.10
     steps:
       - checkout
-      - run: npm install
-      - run: npm run test
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          name: Unit Test
+          command: ng test --watch=false
+
+  cypress-test:
+    docker:
+      - image: cypress/base:14.17.0
+    environment:
+      CYPRESS_CACHE_FOLDER: /root/.cache/Cypress
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          name: Cypress Test
+          command: npm run cypress:run
+
 workflows:
+  version: 2
   build-and-test:
     jobs:
       - build
-      - test:
+      - unit-test:
+          requires:
+            - build
+      - cypress-test:
           requires:
             - build
