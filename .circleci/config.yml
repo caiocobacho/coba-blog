@@ -1,52 +1,66 @@
+# Define a versão do pipeline do CircleCI.
 version: 2.1
 
-orbs:
-  node: circleci/node@4.7
-
+# Define os jobs que serão executados no pipeline.
 jobs:
+  # Job para instalar as dependências necessárias.
+  install-dependencies:
+    # Define o executor que será utilizado.
+    docker:
+      # Utiliza a imagem "node" do Docker.
+      - image: node:16.13.2
+    # Define os passos que serão executados no job.
+    steps:
+      # Instala o Angular CLI globalmente.
+      - run: npm install -g @angular/cli
+
+  # Job para fazer o build da aplicação.
   build:
+    # Define o executor que será utilizado.
     docker:
-      - image: cimg/node:16.10
+      # Utiliza a imagem "node" do Docker.
+      - image: node:16.13.2
+    # Define os passos que serão executados no job.
     steps:
+      # Checkout do código-fonte.
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
-      - run:
-          name: Build
-          command: ng build --prod
+      # Instala as dependências do projeto.
+      - run: npm install
+      # Faz o build da aplicação.
+      - run: ng build --prod
 
-  unit-test:
+  # Job para executar os testes unitários e end-to-end (Cypress).
+  test:
+    # Define o executor que será utilizado.
     docker:
-      - image: cimg/node:16.10
+      # Utiliza a imagem "cypress/browsers:node16.13.2-chrome99-ff93" do Docker, que inclui o navegador Chrome e o Firefox.
+      - image: cypress/browsers:node16.13.2-chrome99-ff93
+    # Define os passos que serão executados no job.
     steps:
+      # Checkout do código-fonte.
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
-      - run:
-          name: Unit Test
-          command: ng test --watch=false
+      # Instala as dependências do projeto.
+      - run: npm install
+      # Executa os testes unitários.
+      - run: ng test --watch=false
+      # Executa os testes end-to-end (Cypress).
+      - run: npm run e2e
 
-  cypress-test:
-    docker:
-      - image: cypress/base:14.17.0
-    environment:
-      CYPRESS_CACHE_FOLDER: /root/.cache/Cypress
-    steps:
-      - checkout
-      - node/install-packages:
-          pkg-manager: npm
-      - run:
-          name: Cypress Test
-          command: npm run cypress:run
-
+# Define as etapas (stages) do pipeline e os jobs que serão executados em cada uma.
+# A ordem em que as etapas aparecem aqui é a ordem em que serão executadas.
+# Os jobs podem aparecer em várias etapas se necessário.
 workflows:
+  # Define o workflow do pipeline.
+  # Aqui, temos apenas uma etapa para cada job, mas poderíamos ter várias etapas para cada job se necessário.
+  # O pipeline será executado sempre que houver uma nova alteração no repositório.
   version: 2
   build-and-test:
     jobs:
-      - build
-      - unit-test:
+      - install-dependencies
+      - build:
           requires:
-            - build
-      - cypress-test:
+            - install-dependencies
+      - test:
           requires:
+            - install-dependencies
             - build
