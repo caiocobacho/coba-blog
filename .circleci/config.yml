@@ -34,6 +34,10 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package-lock.json" }}
       - run:
+          name: Set Chrome binary path
+          command: echo 'export CHROME_BIN=/usr/bin/google-chrome' >> $BASH_ENV
+          shell: /bin/bash
+      - run:
           name: Unit tests
           command: npm run test
 
