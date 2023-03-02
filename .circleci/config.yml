@@ -34,6 +34,16 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package-lock.json" }}
       - run:
+        name: Install Chrome
+        command: |
+          curl -sSL https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb > /tmp/google-chrome.deb
+          sudo dpkg -i /tmp/google-chrome.deb
+          sudo apt-get install -f
+    - run:
+        name: Set Chrome binary path
+        command: echo 'export CHROME_BIN=/usr/bin/google-chrome-stable' >> $BASH_ENV
+        shell: /bin/bash    
+      - run:
           name: Unit tests
           command: npm run test
 
