@@ -1,0 +1,30 @@
+image: node:latest
+
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  script:
+    - npm install
+    - npm run build
+  only:
+    - master
+
+test:
+  stage: test
+  script:
+    - npm install
+    - npm run test
+  only:
+    - master
+
+deploy:
+  stage: deploy
+  script:
+    - npm install
+    - npm run deploy
+  only:
+    - master  

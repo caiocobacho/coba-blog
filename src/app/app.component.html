@@ -1,0 +1,29 @@
+<div class="animated-bg"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card bg-light border-0 shadow">
+                <div class="card-header">
+                    <h1 class>Coba</h1>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-4 text-left">
+                            <img src="https://yt3.ggpht.com/a/AATXAJxxZMPAR4jgyQgCvy-bZkfcGcYKodW_XKFjZYCaqQ=s900-c-k-c0xffffffff-no-rj-mo" alt="" height="150">
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="row">
+                            <div class="col text-right">
+                                <app-botao-artigos (exibirTabelaEvent)="toggleTabela()"></app-botao-artigos>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="exibirTabela">
+                <app-tabela-artigos [categorias]="categorias"></app-tabela-artigos>
+              </div>
+        </div>
+    </div>
+</div>
