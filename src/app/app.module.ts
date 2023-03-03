@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SobreMimComponent } from './sobre-mim/sobre-mim.component';
+
 import { BotaoArtigosComponent } from './botao-artigos/botao-artigos.component';
 import { TituloArtigosComponent } from './titulo-artigos/titulo-artigos.component';
 import { TabelaArtigosComponent } from './tabela-artigos/tabela-artigos.component';
@@ -11,7 +11,6 @@ import { TabelaArtigosComponent } from './tabela-artigos/tabela-artigos.componen
 @NgModule({
   declarations: [
     AppComponent,
-    SobreMimComponent,
     BotaoArtigosComponent,
     TituloArtigosComponent,
     TabelaArtigosComponent
