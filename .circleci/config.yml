@@ -13,7 +13,7 @@ jobs:
       - run: npm install
       - run:
           name: Install Karma CLI
-          command: npm install -g karma-cli
+          command: npm install --global karma-cli --unsafe-perm=true
       - save_cache:
           paths:
             - node_modules
