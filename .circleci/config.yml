@@ -52,7 +52,7 @@ jobs:
           command: npm install
       - run:
           name: Start the app
-          command: npm start -- --port 4200
+          command: npm start 
           background: true
       - run:
           name: Run Cypress tests
