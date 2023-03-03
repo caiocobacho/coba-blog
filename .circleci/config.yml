@@ -51,10 +51,6 @@ jobs:
           name: Install dependencies
           command: npm install
       - run:
-          name: Start the app
-          command: npm start 
-          background: true
-      - run:
           name: Run Cypress tests
           command: npx cypress run
 
