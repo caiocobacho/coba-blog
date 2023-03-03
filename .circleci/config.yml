@@ -34,7 +34,9 @@ jobs:
       - run: npm install
       - run:
           name: Unit tests
-          command: karma start
+          command: |
+          sudo npm install -g karma-cli 
+          karma start
       - save_cache:
           paths:
             - node_modules
