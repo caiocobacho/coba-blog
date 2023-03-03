@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "defaultCollection": "@angular/cli"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -82,6 +85,7 @@
               "zone.js",
               "zone.js/testing"
             ],
+            "karmaConfig": "./karma.conf.js",
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               "src/favicon.ico",
