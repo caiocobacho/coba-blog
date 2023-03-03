@@ -11,6 +11,9 @@ jobs:
             - v1-dependencies-{{ checksum "package-lock.json" }}
             - v1-dependencies-
       - run: npm install
+      - run:
+          name: Install Karma CLI
+          command: npm install -g karma-cli
       - save_cache:
           paths:
             - node_modules
@@ -29,29 +32,19 @@ jobs:
             - v1-dependencies-{{ checksum "package-lock.json" }}
             - v1-dependencies-
       - run: npm install
+      - run:
+          name: Unit tests
+          command: karma start
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package-lock.json" }}
-      - run:
-          name: Unit tests
-          command: karma start
 
   e2e:
     docker:
       - image: cypress/included:7.7.0
     steps:
       - checkout
-      - run:
-          name: Install Chrome
-          command: |
-            curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add
-            echo "deb https://dl.google.com/linux/chrome/deb/ stable main" | sudo tee -a /etc/apt/sources.list.d/google-chrome.list
-            sudo apt-get update && sudo apt-get install -y google-chrome-stable
-      - run:
-          name: Set Chrome binary path
-          command: echo 'export CHROME_BIN=/usr/bin/google-chrome-stable' >> $BASH_ENV
-          shell: /bin/bash
       - run:
           name: Install dependencies
           command: npm install
