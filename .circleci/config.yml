@@ -37,6 +37,8 @@ jobs:
           command: |
             sudo npm install -g karma-cli 
             karma start karma.conf.js --single-run
+        finally:
+      - run: karma stop
       - save_cache:
           paths:
             - node_modules
