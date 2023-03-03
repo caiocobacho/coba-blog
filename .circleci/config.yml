@@ -36,7 +36,7 @@ jobs:
           name: Unit tests
           command: |
             sudo npm install -g karma-cli 
-            karma start
+            karma start karma.conf.js --single-run
       - save_cache:
           paths:
             - node_modules
